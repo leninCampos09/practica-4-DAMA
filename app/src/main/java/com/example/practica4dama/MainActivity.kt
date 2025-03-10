@@ -77,8 +77,10 @@ class MainActivity : AppCompatActivity() {
         btnPause.setOnClickListener {
             if (mediaPlayer.isPlaying) {
                 pauseSong()
+                btnPause.setImageResource(R.drawable.ic_play)  // Cambiar el ícono a "play"
             } else {
                 resumeSong()
+                btnPause.setImageResource(R.drawable.ic_pause)  // Cambiar el ícono a "pause"
             }
         }
 
@@ -115,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.prepare()
             mediaPlayer.start()
             isPlaying = true
-            fabPlay.setImageResource(R.drawable.ic_pause)
+            fabPlay.setImageResource(R.drawable.ic_pause) // Cambiar el ícono del botón de reproducción
 
             // Mostrar el nombre de la canción, el nombre del artista y el álbum en el display
             tvCurrentSong.text = "${song.name} - ${song.artist}"
@@ -142,7 +144,8 @@ class MainActivity : AppCompatActivity() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             isPlaying = false
-            fabPlay.setImageResource(R.drawable.ic_play)
+            fabPlay.setImageResource(R.drawable.ic_play) // Cambiar el ícono del fabPlay a "play"
+            btnPause.setImageResource(R.drawable.ic_play)  // Cambiar el ícono de btnPause a "play"
         }
     }
 
@@ -150,7 +153,8 @@ class MainActivity : AppCompatActivity() {
         try {
             mediaPlayer.start()
             isPlaying = true
-            fabPlay.setImageResource(R.drawable.ic_pause) // Cambiar el ícono del botón de reproducción
+            fabPlay.setImageResource(R.drawable.ic_pause) // Cambiar el ícono del fabPlay a "pause"
+            btnPause.setImageResource(R.drawable.ic_pause)  // Cambiar el ícono de btnPause a "pause"
 
             // Mostrar el nombre de la canción, el nombre del artista y el álbum en el display
             val currentSong = songs[currentSongIndex]
@@ -307,7 +311,7 @@ class MainActivity : AppCompatActivity() {
                 tvSongArtist.text = song.artist
                 tvSongDuration.text = song.duration
 
-                // Manejar el click sobre la canción
+                // Establecer el clic sobre el ítem
                 itemView.setOnClickListener {
                     onSongClick(song, index)
                 }
@@ -315,9 +319,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): SongViewHolder {
-            val view = android.view.LayoutInflater.from(parent.context)
+            val itemView = android.view.LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_song, parent, false)
-            return SongViewHolder(view)
+            return SongViewHolder(itemView)
         }
 
         override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
@@ -332,7 +336,7 @@ class MainActivity : AppCompatActivity() {
         val artist: String,
         val album: String,
         val path: String,
-        var duration: String = "0:00"
+        var duration: String = "00:00"
     )
 }
 
