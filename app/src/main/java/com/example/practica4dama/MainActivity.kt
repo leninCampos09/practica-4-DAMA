@@ -249,14 +249,28 @@ class MainActivity : AppCompatActivity() {
     ) : RecyclerView.Adapter<SongAdapter.SongViewHolder>() {
 
         inner class SongViewHolder(itemView: android.view.View) : RecyclerView.ViewHolder(itemView) {
+            val tvNumber: TextView = itemView.findViewById(R.id.tvNumber)  // TextView para número de pista
             val tvSongName: TextView = itemView.findViewById(R.id.tvTitle)
             val tvSongArtist: TextView = itemView.findViewById(R.id.tvArtist)
-            val tvSongDuration: TextView = itemView.findViewById(R.id.tvDuration)  // Nuevo TextView para duración
+            val tvSongDuration: TextView = itemView.findViewById(R.id.tvDuration)
 
             fun bind(song: Song, index: Int) {
+                // Establecer el número de pista (índice + 1)
+                val trackNumber = (index + 1).toString()
+                tvNumber.text = trackNumber  // +1 porque el índice comienza en 0
+
+                // Ajustar el tamaño del texto del número de pista dependiendo del valor
+                val textSize = when {
+                    trackNumber.length > 3 -> 16f  // Para números mayores a 1000, aumenta el tamaño
+                    trackNumber.length > 2 -> 16f  // Para números mayores a 100, aumenta el tamaño
+                    else -> 16f  // Para números pequeños, tamaño normal
+                }
+                tvNumber.textSize = textSize
+
+                // Establecer el nombre de la canción, el artista y la duración
                 tvSongName.text = song.name
                 tvSongArtist.text = song.artist
-                tvSongDuration.text = song.duration // Muestra la duración de la canción
+                tvSongDuration.text = song.duration
                 itemView.setOnClickListener {
                     onSongClick(song, index)
                 }
