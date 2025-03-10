@@ -7,18 +7,20 @@
     android:background="?attr/selectableItemBackground"
     android:padding="16dp">
 
+    <!-- Número de pista -->
     <TextView
         android:id="@+id/tvNumber"
-        android:layout_width="24dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="1"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Título de la canción -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
@@ -34,6 +36,7 @@
         app:layout_constraintStart_toEndOf="@+id/tvNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Artista de la canción -->
     <TextView
         android:id="@+id/tvArtist"
         android:layout_width="0dp"
@@ -49,6 +52,7 @@
         app:layout_constraintStart_toEndOf="@+id/tvNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
+    <!-- Duración de la canción -->
     <TextView
         android:id="@+id/tvDuration"
         android:layout_width="wrap_content"
@@ -60,6 +64,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnMore"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Botón de más opciones -->
     <ImageButton
         android:id="@+id/btnMore"
         android:layout_width="24dp"
