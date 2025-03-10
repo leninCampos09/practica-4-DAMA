@@ -75,7 +75,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnPause.setOnClickListener {
-            pauseSong()
+            if (mediaPlayer.isPlaying) {
+                pauseSong()
+            } else {
+                resumeSong()
+            }
         }
 
         setupSeekBar()
@@ -139,6 +143,37 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.pause()
             isPlaying = false
             fabPlay.setImageResource(R.drawable.ic_play)
+        }
+    }
+
+    private fun resumeSong() {
+        try {
+            mediaPlayer.start()
+            isPlaying = true
+            fabPlay.setImageResource(R.drawable.ic_pause) // Cambiar el ícono del botón de reproducción
+
+            // Mostrar el nombre de la canción, el nombre del artista y el álbum en el display
+            val currentSong = songs[currentSongIndex]
+            tvCurrentSong.text = "${currentSong.name} - ${currentSong.artist}"
+            tvAlbumTitle.text = "${currentSong.album}"
+            tvArtistName.text = "${currentSong.artist}"
+
+            // Actualizar el máximo del SeekBar y continuar desde la posición anterior
+            seekBar.max = mediaPlayer.duration
+            seekBar.progress = mediaPlayer.currentPosition
+
+            // Si la canción ya está reproduciéndose, continuar actualizando la barra de progreso
+            handler.postDelayed(object : Runnable {
+                override fun run() {
+                    if (mediaPlayer.isPlaying) {
+                        seekBar.progress = mediaPlayer.currentPosition
+                    }
+                    handler.postDelayed(this, 1000)
+                }
+            }, 1000)
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error al intentar reanudar la canción: ${e.message}")
+            Toast.makeText(this, "Error al reanudar la canción", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -271,6 +306,8 @@ class MainActivity : AppCompatActivity() {
                 tvSongName.text = song.name
                 tvSongArtist.text = song.artist
                 tvSongDuration.text = song.duration
+
+                // Manejar el click sobre la canción
                 itemView.setOnClickListener {
                     onSongClick(song, index)
                 }
@@ -290,6 +327,12 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount(): Int = songList.size
     }
 
-    // Clase para representar una canción con nombre, artista, álbum, ruta y duración
-    data class Song(val name: String, val artist: String, val album: String, val path: String, var duration: String? = null)
+    data class Song(
+        val name: String,
+        val artist: String,
+        val album: String,
+        val path: String,
+        var duration: String = "0:00"
+    )
 }
+
